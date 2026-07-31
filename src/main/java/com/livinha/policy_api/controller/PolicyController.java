@@ -1,5 +1,6 @@
 package com.livinha.policy_api.controller;
 
+import com.livinha.policy_api.dto.PolicyRequest;
 import com.livinha.policy_api.model.Policy;
 import com.livinha.policy_api.service.PolicyService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class PolicyController {
 
     @GetMapping
     public List<Policy> findAll() {
+
         return service.findAll();
     }
 
@@ -26,15 +28,24 @@ public class PolicyController {
     }
 
     @PostMapping
-    public Policy create(@RequestBody Policy policy) {
+    public Policy create(@RequestBody PolicyRequest request) {
+        Policy policy = Policy.builder()
+                .policyNumber(request.policyNumber())
+                .customerName(request.customerName())
+                .build();
+
         return service.create(policy);
     }
 
     @PutMapping("/{id}")
     public Policy uptade(
             @PathVariable Long id,
-            @RequestBody Policy policy
+            @RequestBody PolicyRequest request
     ) {
+        Policy policy = Policy.builder()
+                .policyNumber(request.policyNumber())
+                .customerName(request.customerName())
+                .build();
         return service.update(id, policy);
     }
 
